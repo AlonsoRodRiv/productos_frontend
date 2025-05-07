@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "npx angular-cli-ghpages --cname=productos_frontend --name=\"AlonsoRodRiv\" --email=\"rr14112@ues.edu.sv\" --repo=https://github.com/AlonsoRodRiv/productos_frontend.git"
+    "deploy": "npx angular-cli-ghpages"
   },
   "private": true,
   "dependencies": {
