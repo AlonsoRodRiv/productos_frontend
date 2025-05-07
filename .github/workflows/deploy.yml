@@ -29,5 +29,4 @@ jobs:
       - name: Deploy to Github pages
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_CD }}
-        run: |
-          npm run ng -- deploy --repo=https://github.com/AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv" --email="rr14112@ues.edu.sv" --base-href=/productos_frontend/
+        run: npm run deploy
