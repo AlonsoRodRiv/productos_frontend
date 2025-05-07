@@ -1,0 +1,32 @@
+<app-data-table
+  [columns]="columns"
+  [title]="'Proveedores'"
+  [data]="suppliers"
+  (onEdit)="handleEdit($event)"
+  (onDelete)="handleDelete($event)"
+  (onAdd)="handleAdd()"
+>
+</app-data-table>
+<app-modal
+  [isOpen]="isFormModalOpen"
+  [title]="proveedorSelected ? 'Editar Proveedor' : 'Agregar Proveedor'"
+  (close)="closeFormModal()"
+>
+  <app-form-base
+    [campos]="fieldForm"
+    [form]="proveedorForm"
+    (save)="goSave($event)"
+    (close)="closeFormModal()"
+  >
+  </app-form-base>
+</app-modal>
+<app-confirmation-modal
+  [isOpen]="isDeleteModalOpen"
+  [title]="'Confirmar eliminación'"
+  [message]="
+    '¿Está seguro de eliminar esta proveedor? Todos los productos relacionados también serán eliminados.'
+  "
+  (onClose)="closeDeleteModal()"
+  (onConfirm)="onDelete()"
+>
+</app-confirmation-modal>

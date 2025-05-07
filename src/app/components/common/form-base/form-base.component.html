@@ -1,0 +1,57 @@
+<form
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+  class="bg-white shadow-md rounded-md p-4"
+>
+  @for (field of campos; track field.name) { @if (field.type === 'select') {
+  <app-custom-label
+    [for]="field.name"
+    [text]="field.label"
+    [required]="field.required"
+    [helpText]="field.helpText"
+  />
+  <app-custom-select
+    [id]="field.name"
+    [placeholder]="field.placeholder"
+    [options]="getOptions(field)"
+    [control]="getControl(field.name)"
+  />
+  } @else {
+  <app-custom-label
+    [for]="field.name"
+    [text]="field.label"
+    [required]="field.required"
+    [helpText]="field.helpText"
+  />
+  <app-custom-input
+    [id]="field.name"
+    [placeholder]="field.placeholder"
+    [control]="getControl(field.name)"
+    [type]="field.type"
+  />
+  } }
+  <!-- Mensaje de error general del formulario -->
+  @if (attemptedSubmit && !form.valid) {
+  <div class="text-red-500 text-sm mb-4 mt-2">
+    Por favor, complete correctamente todos los campos requeridos
+  </div>
+  }
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded"
+      (click)="close.emit()"
+    >
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      [disabled]="attemptedSubmit && !form.valid"
+      [class.opacity-50]="attemptedSubmit && !form.valid"
+      [class.cursor-not-allowed]="attemptedSubmit && !form.valid"
+      class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

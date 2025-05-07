@@ -1,0 +1,23 @@
+<label
+  [attr.for]="for"
+  class="block text-zinc-700 text-sm font-bold mb-2 dark:text-white"
+  [ngClass]="customClasses"
+>
+  {{ text }}
+  <span *ngIf="required" class="text-red-500 ml-1">*</span>
+  <span
+    *ngIf="helpText"
+    class="ml-1 inline-block cursor-help text-blue-500"
+    (mouseenter)="showTooltip = true"
+    (mouseleave)="showTooltip = false"
+  >
+    <i class="fas fa-question-circle"></i>
+
+    <div
+      *ngIf="showTooltip"
+      class="absolute bg-gray-800 text-white p-2 rounded text-xs z-10 w-48 top-0 left-full ml-2"
+    >
+      {{ helpText }}
+    </div>
+  </span>
+</label>

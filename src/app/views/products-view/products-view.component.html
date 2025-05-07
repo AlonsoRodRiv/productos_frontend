@@ -1,0 +1,23 @@
+<app-data-table
+  [headers]="headerProduct"
+  [title]="'Productos'"
+  [data]="products"
+  [columns]="columns"
+  (onEdit)="handleEdit($event)"
+  (onDelete)="handleDelete($event)"
+  (onAdd)="handleAdd()"
+>
+</app-data-table>
+<app-modal
+  [isOpen]="isModalOpen"
+  [title]="selectedProduct ? 'Editar Producto' : 'Agregar Producto'"
+  (close)="closeModal()"
+>
+  <app-form-base
+    [campos]="fieldForm"
+    [form]="productoForm"
+    (save)="goSave($event)"
+    (close)="closeModal()"
+  >
+  </app-form-base>
+</app-modal>

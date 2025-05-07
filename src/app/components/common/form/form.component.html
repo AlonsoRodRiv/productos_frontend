@@ -1,0 +1,38 @@
+<form [formGroup]="form" (ngSubmit)="save.emit(form.value)">
+  @for (field of campos; track field.name) {
+  <div class="mb-3">
+    <label [for]="field.name" class="form-label">{{ field.label }}</label>
+    @if (field.type === 'select') {
+    <select
+      [id]="field.name"
+      class="form-control"
+      [formControlName]="field.name"
+    >
+      <option value="">{{ field.placeholder }}</option>
+      @for (option of getOptionsForField(field); track option.id) {
+      <option [value]="option.id">{{ option.nombre }}</option>
+      }
+    </select>
+    } @else {
+    <input
+      [type]="field.type || 'text'"
+      [id]="field.name"
+      class="form-control"
+      [formControlName]="field.name"
+      [placeholder]="field.placeholder || ''"
+    />
+    } @if (form.get(field.name)?.invalid && (form.get(field.name)?.dirty ||
+    form.get(field.name)?.touched)) {
+    <div class="text-danger">Este campo es requerido</div>
+    }
+  </div>
+  }
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close.emit()">
+      Cancelar
+    </button>
+    <button type="submit" [disabled]="!form.valid" class="btn btn-primary">
+      Guardar
+    </button>
+  </div>
+</form>
