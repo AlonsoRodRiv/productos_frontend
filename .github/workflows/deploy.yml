@@ -26,6 +26,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Set git config
+        run: |
+          git config --global user.name "AlonsoRodRiv"
+          git config --global user.email "rr14112@ues.edu.sv"
+
       - name: Deploy to Github pages
         run: npx ng deploy --repo=git@github.com-alonsorodriv:AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv" --base-href=/productos_frontend/
 
