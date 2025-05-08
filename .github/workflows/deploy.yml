@@ -26,13 +26,20 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Generate known_hosts
-        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Get SSH known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com > ~/.ssh/known_hosts
 
-      - name: Setup SSH key
+      - name: Read known_hosts into env
+        id: knownhosts
+        run: echo "KNOWN_HOSTS=$(cat ~/.ssh/known_hosts)" >> $GITHUB_ENV
+
+      - name: Setup SSH key with shimataro
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ env.KNOWN_HOSTS }}
           config: |
             Host github.com-alonsorodriv
               HostName github.com
