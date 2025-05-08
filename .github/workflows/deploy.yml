@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to Github pages
-        run: ng deploy --repo=git@github.com-alonsorodriv:AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv" --base-href=/productos_frontend/
+        run: npm run deploy -- --repo=git@github.com-alonsorodriv:AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv"
 
       # - name: Deploy to Github pages
       #   env:
