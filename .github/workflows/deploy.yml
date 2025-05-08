@@ -25,44 +25,52 @@ jobs:
 
       - name: Build
         run: npm run build
-
+      #- Podemos crear los KNOWN HOST Temporalmente
       # - name: Get SSH known hosts
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     ssh-keyscan github.com > ~/.ssh/known_hosts
+      #-   run: |
+      #-     mkdir -p ~/.ssh
+      #-     ssh-keyscan github.com > ~/.ssh/known_hosts
 
       # - name: Read known_hosts into env
-      #   id: knownhosts
-      #   run: echo "KNOWN_HOSTS=$(cat ~/.ssh/known_hosts)" >> $GITHUB_ENV
+      #-   id: knownhosts
+      #-   run: echo "KNOWN_HOSTS=$(cat ~/.ssh/known_hosts)" >> $GITHUB_ENV
 
-      - name: Setup SSH key with shimataro
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
-          config: |
-            Host github.com-alonsorodriv
-              HostName github.com
-              User git
-              IdentityFile ~/.ssh/id_rsa
+      # - name: Setup SSH key with shimataro
+      #   uses: shimataro/ssh-key-action@v2
+      #   with:
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     known_hosts: ${{ secrets.KNOWN_HOSTS }}
+      #     config: |
+      #       Host github.com-alonsorodriv
+      #         HostName github.com
+      #         User git
+      #         IdentityFile ~/.ssh/id_rsa
 
+      #- Esta es la forma manual de hacerlo, pero no es necesario si usamos el paso anterior
       # - name: Setup SSH
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      #     chmod 600 ~/.ssh/id_rsa
-      #     echo -e "Host github.com-alonsorodriv\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n" >> ~/.ssh/config
-      #     ssh-keyscan github.com >> ~/.ssh/known_hosts
+      #-   run: |
+      #-     mkdir -p ~/.ssh
+      #-     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      # -    chmod 600 ~/.ssh/id_rsa
+      #-     echo -e "Host github.com-alonsorodriv\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n" >> ~/.ssh/config
+      #-     ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      - name: Set git config
-        run: |
-          git config --global user.name "AlonsoRodRiv"
-          git config --global user.email "rr14112@ues.edu.sv"
+      # # Este paso es necesario si usamos SSH y tenemos varias cuentas de github
+      # - name: Set git config
+      #   run: |
+      #     git config --global user.name "AlonsoRodRiv"
+      #     git config --global user.email "rr14112@ues.edu.sv"
 
       - name: Deploy to Github pages
-        run: npx ng deploy --repo=git@github.com-alonsorodriv:AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv" --base-href=/productos_frontend/
+        run: npx ng deploy --repo=https://github.com/AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv" --base-href=/productos_frontend/ --no-silent
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN_CD }}
 
       # - name: Deploy to Github pages
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.TOKEN_CD }}
-      #   run: npm run deploy -- --repo=https://AlonsoRodRiv:${{ env.GITHUB_TOKEN }}@github.com/AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv"
+      #   run: npx ng deploy --repo=git@github.com-alonsorodriv:AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv" --base-href=/productos_frontend/
+
+      # - Forma usando el token de github sin usar SSH
+      # - name: Deploy to Github pages
+      # -  env:
+      #-     GITHUB_TOKEN: ${{ secrets.TOKEN_CD }}
+      # -  run: npm run deploy -- --repo=https://AlonsoRodRiv:${{ env.GITHUB_TOKEN }}@github.com/AlonsoRodRiv/productos_frontend.git --name="AlonsoRodRiv"
