@@ -26,11 +26,13 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Generate known_hosts
+        run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+
       - name: Setup SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
           config: |
             Host github.com-alonsorodriv
               HostName github.com
