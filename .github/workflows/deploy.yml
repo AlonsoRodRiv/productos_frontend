@@ -26,13 +26,24 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          echo -e "Host github.com-alonsorodriv\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n" >> ~/.ssh/config
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Setup SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          config: |
+            Host github.com-alonsorodriv
+              HostName github.com
+              User git
+              IdentityFile ~/.ssh/id_rsa
+
+      # - name: Setup SSH
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+      #     echo -e "Host github.com-alonsorodriv\n  HostName github.com\n  User git\n  IdentityFile ~/.ssh/id_rsa\n" >> ~/.ssh/config
+      #     ssh-keyscan github.com >> ~/.ssh/known_hosts
 
       - name: Set git config
         run: |
