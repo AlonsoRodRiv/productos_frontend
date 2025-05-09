@@ -9,6 +9,10 @@ import type { ProveedorDTO } from '../interfaces/proveedorDTO.interface';
 })
 export class ProveedorService extends CrudServiceImpl<ProveedorDTO, number> {
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:8080/api', 'proveedores');
+    super(
+      http,
+      'https://5b3b-190-86-106-207.ngrok-free.app/api',
+      'proveedores'
+    );
   }
 }

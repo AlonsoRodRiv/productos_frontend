@@ -8,6 +8,6 @@ import { CrudServiceImpl } from '../common/class/CrudServiceImpl';
 })
 export class ProductoService extends CrudServiceImpl<ProductoDTO, number> {
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:8080/api', 'productos');
+    super(http, 'https://5b3b-190-86-106-207.ngrok-free.app/api', 'productos');
   }
 }
